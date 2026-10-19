@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/theme-provider";
+import SakuraFalling from "@/components/SakuraFalling";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -29,7 +30,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      suppressContentEditableWarning
+      suppressHydrationWarning
       className={cn(
         "h-full",
         "antialiased",
@@ -46,6 +47,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          <SakuraFalling />
           {children}
         </ThemeProvider>
       </body>

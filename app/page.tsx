@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Progress } from "@/components/ui/progress";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { spawnSakura } from "@/components/SakuraFalling";
 
 export default function Home() {
   const start = new Date("2026-04-29T00:00:00Z").getTime();
@@ -60,13 +61,34 @@ export default function Home() {
     };
   }, [start, end, totalDuration]);
 
+  const handleProgressTap = (e: React.PointerEvent<HTMLDivElement>) => {
+    spawnSakura({ x: e.clientX, y: e.clientY });
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      spawnSakura();
+    }
+  };
+
   return (
     <div className="flex flex-col flex-1 items-center justify-center min-h-screen bg-zinc-50 font-sans dark:bg-black transition-colors duration-300">
       <ThemeToggle />
       <div className="w-1/2 space-y-4">
         <div className="space-y-2">
-          <Progress value={progress} />
-          <div className="flex justify-between text-xs text-zinc-500 font-mono">
+          <div
+            role="button"
+            tabIndex={0}
+            aria-label="Progress bar - tap to spawn sakura flowers"
+            title="Tap to spawn sakura 🌸"
+            onPointerDown={handleProgressTap}
+            onKeyDown={handleKeyDown}
+            className="group cursor-pointer select-none py-2 -my-2 transition-transform active:scale-[0.98] outline-none focus-visible:ring-2 focus-visible:ring-pink-300 rounded-full"
+          >
+            <Progress value={progress} />
+          </div>
+          <div className="flex justify-between text-xs text-zinc-500 font-mono select-none">
             <span>{progress.toFixed(6)}%</span>
             <span>{timeLeft}</span>
           </div>
